@@ -19,14 +19,14 @@ import {ActivatedRoute} from '@angular/router';
 import {DOCUMENT} from '@angular/common';
 import {WINDOW} from '@angular/docs';
 
-import {HomeAnimationComponent} from './components/home-animation/home-animation.component';
+import {HomeLandingComponent} from './components/home-animation/home-animation.component';
 import {CodeEditorComponent} from './components/home-editor.component';
 
 export const TUTORIALS_HOMEPAGE_DIRECTORY = 'homepage';
 
 @Component({
   selector: 'adev-home',
-  imports: [HomeAnimationComponent, CodeEditorComponent],
+  imports: [HomeLandingComponent, CodeEditorComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,8 +46,6 @@ export default class Home {
   prefetchEditor = computed(() => this.scrollProgress() > 0.25);
   showEditor = computed(() => this.scrollProgress() > 0.35);
 
-  animationReady = signal<boolean>(false);
-
   constructor() {
     const scrollListenerCleanupFn = this.renderer.listen(this.win, 'scroll', () =>
       // Keep track of the scroll progress since the home animation uses
@@ -55,9 +53,5 @@ export default class Home {
       this.scrollProgress.set(this.win.scrollY / this.doc.body.scrollHeight),
     );
     this.destroyRef.onDestroy(() => scrollListenerCleanupFn());
-  }
-
-  onAnimationReady(ready: boolean) {
-    this.animationReady.set(ready);
   }
 }

@@ -1,6 +1,6 @@
-<div class="animation" [class.reduced-motion]="reducedMotion()">
+<div class="landing">
   <!-- Banners and buttons  -->
-  <div adevAnimationLayer layerId="banners" class="banners-layer layer">
+  <div class="banners-layer layer">
     <div class="adev-banner-container">
       <a
         href="https://blog.angular.dev/announcing-angular-v20-b5c9c06cf301"
@@ -19,17 +19,120 @@
         <p class="adev-banner-cta">Prompts and best practices for AI and Angular</p>
       </a>
     </div>
-    <div class="learn-angular">
-      <a [routerLink]="ctaLink" class="adev-cta">
-        <button class="docs-primary-btn" [attr.text]="'Learn Angular'" aria-label="Learn Angular">
-          Learn Angular
-        </button>
-      </a>
-      <div class="adev-arrow"></div>
-    </div>
   </div>
 
   @if (!isUwu()) {
+    <!-- Angular logo -->
+    <div adevAnimationLayer layerId="logo" class="logo-layer layer">
+      <img
+        src="assets/images/angular_wordmark_gradient.png"
+        alt="Angular logo"
+        style="width: 65%"
+      />
+      <div class="learn-angular">
+        <div>
+          <a routerLink="overview" class="adev-cta">
+            <button class="docs-primary-btn" [attr.text]="'Overview'" aria-label="Overview">
+              Overview
+            </button>
+          </a>
+          @if (!isIos) {
+            <a routerLink="tutorials" class="adev-cta">
+              <button class="docs-primary-btn" [attr.text]="'Learn Angular'" aria-label="Learn Angular">
+                Learn Angular
+              </button>
+            </a>
+          }
+        </div>
+      </div>
+    </div>
+  } @else {
+    <!-- UwU logo -->
+    <div class="uwu-layer layer">
+      <img src="assets/images/uwu.png" alt="Angular logo" />
+    </div>
+  }
+
+  <!-- Apps that scale -->
+  <div class="apps-that-scale-layer layer">
+    <h2>Apps that scale</h2>
+    <div class="content-container">
+      <div class="text-content">
+        <p>
+          Angular components make it easy to split your code into modular reusable parts, and with dependency injection, you can create loosely-coupled services that share code across your entire application. Angular’s modular design helps you keep code organized and scalable with frictionless state management across all of your application’s components to boost your productivity.
+        </p>
+      </div>
+      <div class="logo-content">
+        <!-- Placeholder for customer logos -->
+        <img
+          src="assets/images/apps-that-scale-logos.png"
+          alt="Logos of companies that use Angular"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Loved by millions -->
+  <div class="loved-by-millions-layer layer">
+    <h2>Work smarter, not harder</h2>
+    <div class="content-container">
+      <div class="text-content">
+        <p>
+          Angular Signals granularly track how and where your state is used throughout an application, allowing the framework to optimize rendering updates. With signals, you can easily create a state graph by declaring relationships between different pieces of state in a single place. This means you can write cleaner, more maintainable code because you don’t need to manually track application state.
+        </p>
+      </div>
+      <div style="flex: 1;">
+        <div class="code-content">
+          <!-- Placeholder for code sample -->
+          <pre><code>
+// TODO: UPDATE CODE SAMPLE AND ADD HIGHLIGHTING
+
+import {{ '{' }}signal{{ '}' }} from '&#64;angular/core';
+
+// Create a signal with the `signal` function.
+const firstName = signal('Morgan');
+
+// Read a signal value by calling it— signals are functions.
+console.log(firstName());
+
+// Change the value of this signal by calling its `set` method with a new value.
+firstName.set('Jaime');
+
+// You can also use the `update` method to change the value
+// based on the previous value.
+firstName.update(name => name.toUpperCase()); 
+          </code></pre>
+        </div>
+        <div class="learn-angular" style="position: relative; bottom: 0; padding-top: 1rem;">
+          <div>
+            <a
+              href="https://ng-dev-previews-fw--pr-angular-angular-62164-adev-prev-a8hbslfy.web.app/guide/signals/code-examples"
+              class="adev-cta"
+              target="_blank"
+            >
+              <button
+                class="docs-primary-btn"
+                [attr.text]="'Interactive examples'"
+                aria-label="Interactive examples"
+              >
+                Interactive examples
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Build for everyone -->
+  <div class="build-for-everyone-layer layer">
+    <h2 class="title">Fully featured framework</h2>
+    <p>
+      Meet your performance targets with server-side render (SSR) and static site generation (SSG) along with full DOM hydration and next-generation deferred loading. Angular also provides first-party modules for common web application features, like routing, forms, and more, which guarantees everything works together. 
+    </p>
+  </div>
+
+  @if (false) {
     <!-- Angular logo -->
     <div adevAnimationLayer layerId="logo" class="logo-layer layer">
       <svg class="svg" viewBox="0 0 1280 400" xmlns="http://www.w3.org/2000/svg">
@@ -44,14 +147,6 @@
             <stop offset="0.25" stop-color="#e449b4" />
             <stop offset="0.5" stop-color="#ae3bfc" />
             <stop offset="1" stop-color="#7f15fd" />
-            <animateTransform
-              attributeName="gradientTransform"
-              type="rotate"
-              from="0 640 125"
-              to="360 640 125"
-              dur="6.5s"
-              repeatCount="indefinite"
-            />
           </linearGradient>
         </defs>
         <g class="wrapper" fill="url(#gradient)">
@@ -102,51 +197,32 @@
     </div>
   } @else {
     <!-- UwU logo -->
-    <div adevAnimationLayer layerId="uwu" class="uwu-layer layer">
+    <div class="uwu-layer layer">
       <img src="assets/images/uwu.png" alt="Angular logo" />
     </div>
-  }
-
-  <!-- Works at any scale -->
-  <div adevAnimationLayer layerId="works-at-any-scale" class="works-at-any-scale-layer layer">
-    <h2>Works at any scale</h2>
-    <p>
-      Angular lets you start small on a well-lit path and supports you as your team and apps grow.
-    </p>
-  </div>
-
-  <!-- Meteor field -->
-  @if (meteorFieldData(); as meteorFieldData) {
-    <div adevAnimationLayer layerId="meteor-field" class="meteor-field-layer layer">
-      <div
-        class="field"
-        [style.width]="meteorFieldData.width + 'px'"
-        [style.height]="meteorFieldData.height + 'px'"
-        [style.marginLeft]="meteorFieldData.marginLeft + 'px'"
-        [style.marginTop]="meteorFieldData.marginTop + 'px'"
-      >
-        @for (type of meteors(); track $index) {
-          <div [class]="['meteor', 'type-' + type, 'mt-' + ($index + 1)]"></div>
-        }
+    <div class="layer">
+      <h2 class="title">Ready to learn more?</h2>
+      <p>
+        Join the millions of developers all over the world building with Angular in a thriving and friendly community.
+      </p>
+    </div>
+    <div class="logo-layer">
+      <div class="learn-angular">
+        <div>
+          <a routerLink="overview" class="adev-cta">
+            <button class="docs-primary-btn" [attr.text]="'Overview'" aria-label="Overview">
+              Overview
+            </button>
+          </a>
+          @if (!isIos) {
+            <a routerLink="tutorials" class="adev-cta">
+              <button class="docs-primary-btn" [attr.text]="'Learn Angular'" aria-label="Learn Angular">
+                Learn Angular
+              </button>
+            </a>
+          }
+        </div>
       </div>
     </div>
   }
-
-  <!-- Loved by millions -->
-  <div adevAnimationLayer layerId="loved-by-millions" class="loved-by-millions-layer layer">
-    <h2>Loved by millions</h2>
-    <p>
-      Join the millions of developers all over the world building with Angular in a thriving and
-      friendly community.
-    </p>
-  </div>
-
-  <!-- Build for everyone -->
-  <div adevAnimationLayer layerId="build-for-everyone" class="build-for-everyone-layer layer">
-    <h2 class="title">Build for everyone</h2>
-    <p>
-      Rely on Angular's built-in hydration, internationalization, security, and accessibility
-      support to build for everyone around the world.
-    </p>
-  </div>
 </div>

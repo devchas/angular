@@ -35,13 +35,13 @@
       background-color: var(--page-background);
       padding-bottom: 60px;
       position: sticky;
-      top: calc((100vh - (100vh - 110px)) / 2);
+      top: 35px;
 
       @include mq.for-tablet {
-        top: calc(((100vh - (100vh - 110px)) / 2) + 36px);
+        top: 71px;
       }
       @include mq.for-phone-only {
-        top: calc(((100vh - (100vh - 110px)) / 2) + 25px);
+        top: 60px;
       }
 
       // stylelint-disable-next-line
