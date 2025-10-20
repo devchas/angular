@@ -172,6 +172,7 @@ import {
   ComponentResolutionData,
   DeferredComponentDependency,
 } from './metadata';
+import {ComponentContextCollector} from '../../../context/src/collector';
 import {
   _extractTemplateStyleUrls,
   createEmptyTemplate,
@@ -281,6 +282,7 @@ export class ComponentDecoratorHandler
     private readonly typeCheckHostBindings: boolean,
     private readonly enableSelectorless: boolean,
     private readonly emitDeclarationOnly: boolean,
+    private contextCollector: ComponentContextCollector | null,
   ) {
     this.extractTemplateOptions = {
       enableI18nLegacyMessageIdFormat: this.enableI18nLegacyMessageIdFormat,
@@ -515,6 +517,95 @@ export class ComponentDecoratorHandler
       hostDirectives,
       rawHostDirectives,
     } = directiveResult;
+
+    if (
+      this.contextCollector !== null &&
+      decorator.args !== null &&
+      decorator.args.length > 0 &&
+      ts.isObjectLiteralExpression(decorator.args[0])
+    ) {
+      for (const prop of decorator.args[0].properties) {
+        if (
+          ts.isPropertyAssignment(prop) &&
+          (ts.isIdentifier(prop.name) || ts.isStringLiteral(prop.name)) &&
+          prop.name.text === 'context' &&
+          ts.isObjectLiteralExpression(prop.initializer)
+        ) {
+          let description: string | undefined;
+          let inputs: {[key: string]: {type: string; description: string; required?: boolean}} = {};
+
+          for (const contextProp of prop.initializer.properties) {
+            if (
+              ts.isPropertyAssignment(contextProp) &&
+              (ts.isIdentifier(contextProp.name) || ts.isStringLiteral(contextProp.name))
+            ) {
+              if (
+                contextProp.name.text === 'description' &&
+                ts.isStringLiteral(contextProp.initializer)
+              ) {
+                description = contextProp.initializer.text;
+              } else if (
+                contextProp.name.text === 'inputs' &&
+                ts.isObjectLiteralExpression(contextProp.initializer)
+              ) {
+                for (const element of contextProp.initializer.properties) {
+                  if (
+                    ts.isPropertyAssignment(element) &&
+                    (ts.isIdentifier(element.name) || ts.isStringLiteral(element.name)) &&
+                    ts.isObjectLiteralExpression(element.initializer)
+                  ) {
+                    const name = element.name.text;
+                    let type: string | undefined;
+                    let inputDescription: string | undefined;
+                    let required: boolean | undefined;
+
+                    for (const inputProp of element.initializer.properties) {
+                      if (
+                        ts.isPropertyAssignment(inputProp) &&
+                        (ts.isIdentifier(inputProp.name) || ts.isStringLiteral(inputProp.name))
+                      ) {
+                        if (
+                          inputProp.name.text === 'type' &&
+                          ts.isStringLiteral(inputProp.initializer)
+                        ) {
+                          type = inputProp.initializer.text;
+                        } else if (
+                          inputProp.name.text === 'description' &&
+                          ts.isStringLiteral(inputProp.initializer)
+                        ) {
+                          inputDescription = inputProp.initializer.text;
+                        } else if (
+                          inputProp.name.text === 'required' &&
+                          (inputProp.initializer.kind === ts.SyntaxKind.TrueKeyword ||
+                            inputProp.initializer.kind === ts.SyntaxKind.FalseKeyword)
+                        ) {
+                          required = inputProp.initializer.kind === ts.SyntaxKind.TrueKeyword;
+                        }
+                      }
+                    }
+
+                    if (type && inputDescription) {
+                      inputs[name] = {type, description: inputDescription, required};
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          if (description) {
+            this.contextCollector.add({
+              name: node.name.text,
+              description,
+              type: 'dynamicComponent',
+              inputs,
+              node: node,
+            });
+          }
+        }
+      }
+    }
+
     const encapsulation: number =
       (this.compilationMode !== CompilationMode.LOCAL
         ? resolveEnumValue(

@@ -24,6 +24,7 @@ export * from './metadata';
 export * from './version';
 export {TypeDecorator} from './util/decorators';
 export * from './di';
+export {COMPONENT_MAP, COMPONENT_CONTEXT_DATA} from './di/injection_token';
 export {
   BootstrapOptions,
   ApplicationRef,

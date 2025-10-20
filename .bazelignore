@@ -74,3 +74,4 @@ vscode-ng-language-service/node_modules
 vscode-ng-language-service/server/node_modules
 vscode-ng-language-service/integration/pre_standalone_project/node_modules
 vscode-ng-language-service/integration/project/node_modules
+packages/node_modules

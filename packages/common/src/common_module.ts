@@ -11,6 +11,8 @@ import {NgModule} from '@angular/core';
 import {COMMON_DIRECTIVES} from './directives/index';
 import {COMMON_PIPES} from './pipes/index';
 
+import {MagicAiComponent} from './magic-ai/magic-ai.component';
+
 // Note: This does not contain the location providers,
 // as they need some platform specific implementations to work.
 /**

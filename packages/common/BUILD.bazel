@@ -19,6 +19,7 @@ ng_project(
         ],
     ),
     deps = [
+        "//:node_modules/genkit",
         "//:node_modules/rxjs",
         "//packages/core",
         "//packages/core/primitives/dom-navigation",

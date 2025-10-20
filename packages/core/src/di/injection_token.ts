@@ -109,3 +109,17 @@ export class InjectionToken<T> {
 export interface InjectableDefToken<T> extends InjectionToken<T> {
   ɵprov: unknown;
 }
+
+/**
+ * An `InjectionToken` that can be used to provide a map of component names to component types.
+ *
+ * @publicApi
+ */
+export const COMPONENT_MAP = new InjectionToken<{[key: string]: Type<any>}>('COMPONENT_MAP');
+
+/**
+ * An `InjectionToken` that can be used to provide the component context data.
+ *
+ * @publicApi
+ */
+export const COMPONENT_CONTEXT_DATA = new InjectionToken<any[]>('COMPONENT_CONTEXT_DATA');

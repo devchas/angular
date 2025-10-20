@@ -659,6 +659,16 @@ export interface Component extends Directive {
    * guide](guide/components/importing).
    */
   schemas?: SchemaMetadata[];
+
+  /**
+   * A string providing context on what the component is and when it should be used.
+   * This metadata is collected by the compiler into an application-wide data structure.
+   * @experimental
+   */
+  context?: {
+    description: string;
+    inputs?: {[key: string]: {type: string; description: string; required?: boolean}};
+  };
 }
 
 /**

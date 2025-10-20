@@ -82,6 +82,11 @@ export interface NgCompilerAdapter
    * Resolved list of root directories explicitly set in, or inferred from, the tsconfig.
    */
   readonly rootDirs: ReadonlyArray<AbsoluteFsPath>;
+
+  /**
+   * Write a file to the filesystem.
+   */
+  writeFile(fileName: string, data: string, writeByteOrderMark?: boolean): void;
 }
 
 export interface SourceFileTypeIdentifier {

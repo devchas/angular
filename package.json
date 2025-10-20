@@ -45,10 +45,12 @@
     "adev": "[[ -n $CI ]] && echo 'Cannot run this pnpm script on CI' && exit 1 || ibazel run //adev:build.serve",
     "adev:build": "[[ -n $CI ]] && echo 'Cannot run this pnpm script on CI' && exit 1 || bazel build //adev:build",
     "benchmarks": "tsx --tsconfig=scripts/tsconfig.json scripts/benchmarks/index.mts",
-    "diff-release-package": "tsx --tsconfig=scripts/tsconfig.json scripts/diff-release-package.mts"
+    "diff-release-package": "tsx --tsconfig=scripts/tsconfig.json scripts/diff-release-package.mts",
+    "postinstall": "node ./scripts/create-context-placeholder.js"
   },
   "// 1": "dependencies are used locally and by bazel",
   "dependencies": {
+    "genkit": "latest",
     "@angular-devkit/build-angular": "21.0.0-next.8",
     "@angular-devkit/core": "21.0.0-next.8",
     "@angular-devkit/schematics": "21.0.0-next.8",
@@ -162,6 +164,7 @@
   },
   "// 2": "devDependencies are not used under Bazel. Many can be removed after test.sh is deleted.",
   "devDependencies": {
+    "genkit": "latest",
     "@actions/core": "^1.10.0",
     "@actions/github": "^6.0.0",
     "@angular-devkit/architect-cli": "0.2100.0-next.8",

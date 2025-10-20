@@ -140,6 +140,10 @@ export class LanguageServiceAdapter implements NgCompilerAdapter {
     }
     return modifiedFiles.size > 0 ? modifiedFiles : undefined;
   }
+
+  writeFile(fileName: string, data: string): void {
+    // This is a no-op for the language service.
+  }
 }
 
 /**
